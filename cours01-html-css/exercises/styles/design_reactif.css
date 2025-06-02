@@ -19,6 +19,9 @@ body {
     text-align: center;
 }
 
+/* Responsive design */
+/* Adjust the flex-basis for smaller screens, if the width gets to a specific size, the items are aligned vertically */
+
 @media screen and (max-width: 768px) {
     .box {
         flex-basis: calc(100% - 20px);
