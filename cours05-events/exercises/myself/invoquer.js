@@ -3,9 +3,11 @@ const invokeTimes = (func, noTimes, time) => {
     let count = 0;
     const intervalId = setInterval(() => {
         if (count < noTimes) {
+            // Call the provided function with the current count
             func(count);
             count++;
         } else {
+            // Stop the interval when the count reaches noTimes
             clearInterval(intervalId);
         }
     }, time);

@@ -29,8 +29,10 @@
         console.log(event.button)
         const dot = document.createElement("div");
         dot.classList.add("dot");
-        dot.style.left = event.clientX + "px";
-        dot.style.top = event.clientY + "px";
+        // Position the dot at the mouse click location
+        // Subtracting 4 to center the dot on the cursor
+        dot.style.left = event.clientX - 4 + "px";
+        dot.style.top = event.clientY - 4 + "px";
 
         if (event.button === 0) {
             dot.classList.add("red");
