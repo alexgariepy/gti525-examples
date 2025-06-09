@@ -1,0 +1,105 @@
+<style>
+    body { font-family: Helvetica; }
+    td { padding: 2px 5px; }
+    th { background-color: lightgrey; padding: 4px 5px; }
+</style>
+
+<h3>Lauréats du prix Nobel par catégorie</h3>
+
+<div>
+  <label for="fcategory">Catégorie:</label>
+  <select id="fcategory" name="category">
+    <option value="--">Choisissez une catégorie</option>
+    <option value="che">Chimie</option>
+    <option value="med">Physiologie ou médecine</option>
+    <option value="lit">Littérature</option>
+    <option value="pea">Paix</option>
+    <option value="eco">Économie</option>
+    <option value="phy">Physique</option>
+  </select>
+</div>
+
+<div id="content"></div>
+
+<script>
+
+    /* Le JSON de réponse a plusieurs objets imbriqués.
+       Cette founction cherche une proprieté à partir d'une chaine.
+       Ex. birth.place.country.en */
+    function findProperty(obj, prop, defValue = null) {
+        prop = prop.split('.');
+        for (let i = 0; i < prop.length; i++) {
+            if (typeof obj[prop[i]] == 'undefined')
+                return defValue;
+            obj = obj[prop[i]];
+        }
+        return obj;
+    }
+
+    // Pour construire le tableau avec les résultats
+    function buildTable(data, fields) {
+        let table = document.createElement("table");
+
+        // Crée l'en-tête du tableau
+        let header = document.createElement("tr");
+        Object.keys(fields).forEach((field) => {
+            let cell = document.createElement("th");
+            cell.appendChild(document.createTextNode(fields[field]));
+            header.appendChild(cell);
+        });
+        table.appendChild(header);
+
+        // Crée les lignes du tableau
+        data.forEach((object) => {
+            let row = document.createElement("tr");
+            Object.keys(fields).forEach((field) => {
+                let cell = document.createElement("td");
+                cell.appendChild(document.createTextNode(findProperty(object, field)));
+                row.appendChild(cell);
+            });
+            table.appendChild(row);
+        });
+        return table;
+    }
+
+    const categoryChange = (ev) => {
+        // Completez le code...
+        const category = ev.target.value;
+        const url = `${API_URL}&nobelPrizeCategory=${category}`;
+        const content = document.getElementById("content");
+        content.innerHTML = ""; // Clear previous content
+        if (category === "--") {
+            return; // Do not fetch data if no category is selected
+        }
+        fetch(url).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        }).then(data => {
+            const laureates = data.nobelPrizes[0].laureates;
+            if (laureates && laureates.length > 0) {
+                const table = buildTable(laureates, FIELDS);
+                content.appendChild(table);
+            } else {
+                content.innerHTML = "<p>Aucun lauréat trouvé pour cette catégorie.</p>";
+            }
+        }).catch(error => {
+            console.error("Erreur lors de la récupération des données:", error);
+            content.innerHTML = "<p>Erreur lors de la récupération des données.</p>";
+        });
+
+    }
+
+    const YEAR = 2021;
+    const API_URL = `https://api.nobelprize.org/2.1/nobelPrizes?nobelPrizeYear=${YEAR}`;
+    const FIELDS = {
+        "fullName.en": "Nom",
+        "motivation.en": "Motivation"
+    };
+
+    let selectCategory = document.getElementById("fcategory");
+    selectCategory.selectedIndex = 0;
+    selectCategory.addEventListener('change', categoryChange);
+
+</script>
