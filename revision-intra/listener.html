@@ -1,0 +1,30 @@
+<body>
+</script>
+<div id="one">
+  <div id="two">
+    <div id="three">
+      <div id="four">
+        <button id="btn">Cliquez sur moi</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    function eventHandler(name) {
+        return () => {
+            console.log(name);
+        };
+    }
+
+    window.onload = function() {
+        let divs = document.querySelectorAll("div");
+        for (let i = 0; i < divs.length; i++) {
+            let div = divs[i];
+            div.addEventListener("click", eventHandler(div.id), false);
+        }
+
+        let btn = document.getElementById("btn");
+        btn.addEventListener("click", eventHandler("btn"), false);
+    };
+</script>
+</body>

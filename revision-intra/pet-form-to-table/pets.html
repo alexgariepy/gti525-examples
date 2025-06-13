@@ -1,0 +1,39 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>Liste d'Animaux de Compagnie</title>
+    <style>
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+            padding: 5px;
+            font-size: 16px;
+        }
+    </style>
+    <script defer src="pets.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2>Liste d'animaux de compagnie</h2>
+    <div class="row">
+        <div class="col s12 m12 l12"><input type="text" id="name" placeholder="Nom de l'animal"></div>
+        <div class="col s12 m9 l9"><input type="text" id="species" placeholder="Espèce"></div>
+        <div class="col s12 m3 l3"><input type="number" id="age" placeholder="Âge"></div>
+        <div class="col s12"><button class="btn" id="addButton">Ajouter</button></div>
+    </div>
+</div>
+<div class="container">
+    <ul class="collection" id="petList">
+        <!--
+        Les animaux de compagnie seront ajoutés ici.
+        Exemple d'un item ajouté :
+            <li class="collection-item">Nom (espèce, age ans) <button class="btn-small">Supprimer</button></li>
+        -->
+    </ul>
+</div>
+</body>
+</html>
