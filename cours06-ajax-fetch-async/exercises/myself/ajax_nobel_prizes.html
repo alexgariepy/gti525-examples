@@ -1,0 +1,128 @@
+<style>
+    body { font-family: Helvetica; }
+    td { padding: 2px 5px; }
+    th { background-color: lightgrey; padding: 4px 5px; }
+</style>
+
+<h4>Lauréats du prix Nobel par catégorie</h4>
+
+<div>
+  <label for="fcategory">Catégorie:</label>
+  <select id="fcategory" name="category">
+    <option value="--">Choisissez une catégorie</option>
+    <option value="che">Chimie</option>
+    <option value="med">Physiologie ou médecine</option>
+    <option value="lit">Littérature</option>
+    <option value="pea">Paix</option>
+    <option value="eco">Économie</option>
+    <option value="phy">Physique</option>
+  </select>
+</div>
+
+<div id="content"></div>
+
+<script>
+
+    // Lance une requête et recupère le JSON de réponse
+    // THIS IS THE AJAX PART
+    function fetchData(url, callback) {
+        const xhr = new XMLHttpRequest();         // AJAX object
+        xhr.responseType = 'json';
+        xhr.open('GET', url); // Prepares the  AJAX request
+        xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status <= 299) {
+                callback(null, xhr.response); // Handles AJAX response
+            } else {
+                callback(new Error(`Erreur réseau: ${xhr.status}, ${xhr.statusText}`));
+            }
+        };
+        xhr.onerror = () => callback(new Error('La requête a échoué'));
+        xhr.send(); // Sends the AJAX request
+    }
+
+    /* Le JSON de réponse a plusieurs objets imbriqués.
+       Cette founction cherche une proprieté à partir d'une chaine.
+       Ex. birth.place.country.en */
+    function findProperty(obj, prop, defValue = null) {
+        prop = prop.split('.');
+        for (let i = 0; i < prop.length; i++) {
+            if (typeof obj[prop[i]] == 'undefined')
+                return defValue;
+            obj = obj[prop[i]];
+        }
+        return obj;
+    }
+
+    // Pour construire le tableau avec les résultats
+    function buildTable(data, fields) {
+        let table = document.createElement("table");
+
+        // Crée l'en-tête du tableau
+        let header = document.createElement("tr");
+        Object.keys(fields).forEach((field) => {
+            let cell = document.createElement("th");
+            cell.appendChild(document.createTextNode(fields[field]));
+            header.appendChild(cell);
+        });
+        table.appendChild(header);
+
+        // Crée les lignes du tableau
+        data.forEach((object) => {
+            let row = document.createElement("tr");
+            Object.keys(fields).forEach((field) => {
+                let cell = document.createElement("td");
+                cell.appendChild(document.createTextNode(findProperty(object, field)));
+                row.appendChild(cell);
+            });
+            table.appendChild(row);
+        });
+        return table;
+    }
+
+    const YEAR = 2021;
+    const API_URL = `https://api.nobelprize.org/2.1/nobelPrizes?nobelPrizeYear=${YEAR}`;
+    const FIELDS = {
+        "fullName.en": "Nom",
+        "motivation.en": "Motivation"
+    };
+
+    const categoryChange = (ev) => {
+        // Completez le code...
+        const category = ev.target.value;
+        console.log("Catégorie sélectionnée:", category);
+        const API_URL_WITH_CATEGORY = `${API_URL}&nobelPrizeCategory=${category}`;
+        const contentDiv = document.getElementById("content");
+            contentDiv.innerHTML = ""; // Clear previous content
+
+        if (category === "--") return; // Do nothing if no category selected
+
+    fetchData(API_URL_WITH_CATEGORY, (err, response) => {
+        if (err) {
+            contentDiv.textContent = "Erreur lors du chargement des données.";
+            return;
+        }
+        // Extraire les lauréats de la réponse
+        const prizes = response.nobelPrizes || [];
+        let laureates = [];
+        prizes.forEach(prize => {
+            if (prize.laureates) {
+                laureates = laureates.concat(prize.laureates);
+            }
+        });
+
+        if (laureates.length === 0) {
+            contentDiv.textContent = "Aucun lauréat trouvé pour cette catégorie.";
+            return;
+        }
+
+        const table = buildTable(laureates, FIELDS);
+        contentDiv.appendChild(table);
+    });
+
+    }
+
+    let selectCategory = document.getElementById("fcategory");
+    selectCategory.selectedIndex = 0;
+    selectCategory.addEventListener('change', categoryChange);
+
+</script>

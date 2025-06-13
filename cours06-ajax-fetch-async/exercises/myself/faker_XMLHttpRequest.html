@@ -1,0 +1,40 @@
+<div id="content"></div>
+
+<script>
+    // GET request to the faker API for pokemon images using XMLHttpRequest
+    function getImages(numberOfImages) {
+        const xhr = new XMLHttpRequest();
+        const url = 'https://fakerapi.it/api/v1/images?_quantity=' + numberOfImages + '&_type=pokemon&_width=300';
+        xhr.open('GET', url, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    const data = JSON.parse(xhr.responseText);
+                    const contentDiv = document.getElementById('content');
+                    data.data.forEach(imgObj => {
+                        const img = document.createElement('img');
+                        img.src = imgObj.url;
+                        img.alt = imgObj.title || 'pokemon';
+                        img.width = 300;
+
+                        const title = document.createElement('h4');
+                        const description = document.createElement('p');
+
+                        title.textContent = imgObj.title || 'Pokemon Image';
+                        description.textContent = imgObj.description || 'No description available';
+                        contentDiv.appendChild(title);
+                        contentDiv.appendChild(img);
+                        contentDiv.appendChild(description);
+                    });
+                } else {
+                    console.error('Error fetching images:', xhr.statusText);
+                }
+            }
+        };
+
+        xhr.send();
+    }
+
+    getImages(3); // Fetch 3 pokemon images
+</script>

@@ -1,0 +1,46 @@
+<div id="content"></div>
+
+
+<script>
+  const baseUrl = 'https://swapi.tech/api/planets';
+  
+  async function fetchJSON(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP : ${response.status}`);
+    }
+    return json = await response.json();
+  }
+
+  async function fetchPlanets() {
+  try {
+    const data = await fetchJSON(baseUrl);
+    const totalPages = data.total_pages;
+    const contentDiv = document.getElementById('content');
+
+    // Prepare all URLs
+    const urls = [];
+    for (let i = 1; i <= totalPages; i++) {
+      urls.push(`https://swapi.tech/api/planets?page=${i}&limit=10`);
+    }
+
+    // Fetch all pages in parallel
+    const allData = await Promise.all(urls.map(fetchJSON));
+
+    // Collect all planet names
+    let html = '';
+    allData.forEach(page => {
+      page.results.forEach(p => {
+        html += p.name + '<br>';
+      });
+    });
+
+    contentDiv.innerHTML = html;
+
+  } catch (error) {
+    console.error("Erreur lors de la récupération des planètes:", error);
+  }
+}
+
+  fetchPlanets();
+</script>
