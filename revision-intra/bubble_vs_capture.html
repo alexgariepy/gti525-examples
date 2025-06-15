@@ -20,7 +20,11 @@
         let divs = document.querySelectorAll("div");
         for (let i = 0; i < divs.length; i++) {
             let div = divs[i];
+            // bubble up
             div.addEventListener("click", eventHandler(div.id), false);
+
+            // capture
+            //div.addEventListener("click", eventHandler(div.id), true);
         }
 
         let btn = document.getElementById("btn");
