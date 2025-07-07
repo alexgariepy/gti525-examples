@@ -3,7 +3,7 @@ import prodRouter from "./routers/products.js";
 import userRouter from "./routers/users.js";
 import pagesRouter from "./routers/pages.js";
 
-const PORT = process.env.NODE_PORT || 3000;
+const PORT = process.env.NODE_PORT || 3050;
 
 const app = express();
 app.use(express.json());
