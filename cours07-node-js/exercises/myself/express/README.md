@@ -1,6 +1,6 @@
 To run server :
 
-1. Make sure you have the same package.json
+1. Make sure you have the same package.json + npm install
 
 2. Run the server
 

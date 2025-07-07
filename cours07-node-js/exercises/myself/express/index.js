@@ -58,7 +58,7 @@ app.get('/movies/:movieId', (req, res) => {
     }
 });
 
-// // Démarrage du serveur Express
-// app.listen(port, () => {
-//     console.log(`Serveur écoutant sur le port ${port}`)
-// })
+// Démarrage du serveur Express
+app.listen(port, () => {
+    console.log(`Serveur écoutant sur le port ${port}`)
+})
