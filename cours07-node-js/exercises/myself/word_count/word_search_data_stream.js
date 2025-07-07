@@ -1,5 +1,5 @@
-const fs = require('node:fs');
-const filename = __dirname + '/alice_book.txt';
+import fs from 'node:fs';
+const filename = 'C:/git/gti525-examples/cours07-node-js/exercises/myself/word_count/alice_book.txt';
 const textToFind = "large rose-tree stood";
 //const textToFind = "Alice";
 const readStream = fs.createReadStream(filename);
