@@ -14,6 +14,16 @@ class Albums {
     async albumById(albumId){
         return await db.get("SELECT * FROM albums WHERE AlbumId = ?", albumId);
     }
+
+    async create(album) {
+        if (album && album.title && album.artistId) {
+            const result = await db.run("INSERT INTO albums (Title, ArtistId) VALUES (?, ?)", album.title, album.artistId);
+            if (result && result.lastID) {
+                return await this.albumById(result.lastID);
+            }
+        }
+        return null;
+    }
 }
 
 export default new Albums();

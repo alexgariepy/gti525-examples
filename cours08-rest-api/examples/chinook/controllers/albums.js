@@ -16,6 +16,17 @@ class AlbumsController extends AbstractController {
         }
     }
 
+    async create(req, res) {
+        const album = req?.body;
+        if (album && album.title && album.artistId) {
+            const result = await model.create(album);
+            if (result) {
+                return res.status(201).json(Response.created(result));
+            }
+        }
+        res.status(400).json(Response.error("Données invalides pour la création de l'album."));
+    }
+
     async albumById(req, res) {
         const albumId = req?.params?.albumId;
         if (albumId) {
