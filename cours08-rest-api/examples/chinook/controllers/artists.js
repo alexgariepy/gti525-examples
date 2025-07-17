@@ -16,6 +16,17 @@ class ArtistsController extends AbstractController {
         }
     }
 
+    async create(req, res) {
+        const artist = req?.body;
+        if (artist && artist.name) {
+            const result = await model.create(artist);
+            if (result) {
+                return res.json(Response.created(result));
+            }
+        }
+        res.status(400).json(Response.error("Données invalides pour la création de l'artiste."));
+    }
+
     async artistById(req, res) {
         const artistId = req?.params?.artistId;
         if (artistId) {
