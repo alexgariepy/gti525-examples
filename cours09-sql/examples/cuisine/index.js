@@ -4,7 +4,7 @@ import itemRouter from './routers/items.js';
 import pagesRouter from './routers/pages.js';
 
 const app = express();
-const PORT = process.env.NODE_PORT || 3000;
+const PORT = process.env.NODE_PORT || 3050;
 
 // Pour servir les pages Web d'exemple
 app.set('view engine', 'ejs');

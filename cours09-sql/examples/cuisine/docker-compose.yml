@@ -12,6 +12,6 @@ services:
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
       - ./data/mariadb:/var/lib/mysql
-      - /var/run/mysqld:/var/run/mysqld
+    #  - /var/run/mysqld:/var/run/mysqld
     ports:
       - "3306:3306"

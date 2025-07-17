@@ -17,3 +17,13 @@ docker compose up -d --build
 
 Les recettes utilisées dans cette application ont été extraites du livre **Le grand livre Marabout 
 de la cuisine du monde.** Merci de citer la source des recettes si vous utilisez cet exemple.
+
+ensuite starter le serveur
+```bash
+npm start
+``` 
+
+ensuite arreter le serveur (à partir du répertoire contenant docker-compose.yml)
+```bash
+docker compose down
+``` 
