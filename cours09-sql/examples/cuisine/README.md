@@ -23,6 +23,12 @@ ensuite starter le serveur
 npm start
 ``` 
 
+ouvrir un autre terminal GIT BASH et rouler des test
+
+```bash
+curl http://localhost:3050/api/items
+``` 
+
 ensuite arreter le serveur (à partir du répertoire contenant docker-compose.yml)
 ```bash
 docker compose down
