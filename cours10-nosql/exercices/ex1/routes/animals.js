@@ -1,9 +1,17 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET animals listing. */
+/* GET animals listing, optionally filtered by type */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  const type = req.query.type;
+  const limit = parseInt(req.query.limit) || 50; // Default to 50 if not specified
+
+  // Replace with your DB/filter logic
+  if (type) {
+    res.send(`Liste des ${limit} animaux de type: ${type}`);
+  } else {
+    res.send(`Liste des ${limit} animaux`);
+  }
 });
 
 /* ADD a new animal */
@@ -11,37 +19,28 @@ router.post('/', function(req, res, next) {
   // Here you would typically handle the request to add a new animal
 });
 
-/* GET animals by type */
-router.get('/:type', function(req, res, next) {
-});
-
 /* Declare an animal as sick */
-router.post('/:id', function(req, res, next) {
+router.patch('/:id', function(req, res, next) {
   // Here you would typically handle the request to declare an animal as sick
 });
 
 /* Put an animal up for adoption */
-router.put('/:id/adopt', function(req, res, next) {
+router.post('/ventes', function(req, res, next) {
   // Here you would typically handle the request to put an animal up for adoption
 });
 
-/* GET top 50 animals */
-router.get('/top50', function(req, res, next) {
-  // Here you would typically handle the request to get the top 50 animals
-});
-
 /* Define an animal as child of another */
-router.post('/:id/child/:parentId', function(req, res, next) {
+router.put('/:id/child/:parentId', function(req, res, next) {
   // Here you would typically handle the request to define an animal as a child of another
 });
 
 /* Check if animal has been vaccinated */
-router.get('/:id/vaccinated', function(req, res, next) {
+router.get('/:id/vaccinated/vaccins/:vaccinId', function(req, res, next) {
   // Here you would typically handle the request to check if an animal has been vaccinated
 });
 
 /* GET an auth token */
-router.get('/auth/token', function(req, res, next) {
+router.get('/auth', function(req, res, next) {
   // Here you would typically handle the request to get an auth token
 });
 
