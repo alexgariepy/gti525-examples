@@ -14,8 +14,6 @@
     // open http://localhost:4000/
     // click the button
     function fetchData() {
-      console.log("test")
-
       fetch('http://localhost:3050/api/data')
         .then(res => res.json())
         .then(data => {

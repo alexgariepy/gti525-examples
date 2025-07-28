@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename)
 const app = express()
 
 app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "script-src 'none'");
+  res.setHeader('Content-Security-Policy', "script-src 'self'");
   next();
 })
 
