@@ -45,7 +45,7 @@ router.get('/auth', function(req, res, next) {
 });
 
 /* transfer animal titles to another user */
-router.post('/transfer/:id', function(req, res, next) {
+router.post('/:animalId/transfer/:userId', function(req, res, next) {
   // Here you would typically handle the request to transfer animal titles to another user
 });
 
