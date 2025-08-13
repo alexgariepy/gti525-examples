@@ -2,7 +2,7 @@ import express from 'express';
 import db from './config/db.js';
 import dishRouter from './routers/dishes.js';
 
-const PORT = process.env.NODE_PORT || 3000;
+const PORT = process.env.NODE_PORT || 3050;
 const app = express();
 app.use(express.json());
 app.use("/api/dishes", dishRouter);
