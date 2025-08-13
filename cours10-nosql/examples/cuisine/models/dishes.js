@@ -6,6 +6,8 @@ class DishModel {
     async all() {
         const conn = db.getConnection();
         try {
+            console.log("Récupération de tous les plats");
+            // Uses .project({ ingredients: 0, directions: 0 }) to exclude the ingredients and directions fields from the results (they will not appear in the returned objects).
             return await conn.collection('dishes').find().project({ ingredients: 0, directions: 0 }).toArray();
         } catch (error) {
             console.log("Erreur pour récupérer les plats: " + error.message);

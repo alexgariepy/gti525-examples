@@ -6,6 +6,7 @@ class DishController {
     async all(req, res) {
         try {
             const results = await model.all();
+            console.log(results)
             if (results.length > 0) {
                 res.json(Response.ok(results));
             } else {
