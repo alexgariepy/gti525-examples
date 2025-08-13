@@ -5,6 +5,7 @@ function registerEvents(emitter, keywords) {
   const counts = {};
   for (const keyword of keywords) {
     counts[keyword] = 0; // Initialize count to 0
+    // registers the function for the emitter.emit
     emitter.on(keyword, () => {
       counts[keyword]++;
     });
@@ -29,7 +30,7 @@ const printCounts = registerEvents(eventEmitter, keywords);
 
 const words = text.split(" ");
 words.forEach( word => {
-    eventEmitter.emit(word.trim());
+    eventEmitter.emit(word.trim()); // executes the emitter.on registered higher up
 });
 
 printCounts();
