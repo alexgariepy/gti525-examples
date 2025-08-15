@@ -31,6 +31,9 @@ class NeighborhoodsController {
         const searchArea = req.body;
         try {
             const results = await neighborhoods.withinArea(searchArea);
+            //The GeoJSON.parse() function takes your array of objects and creates a standard GeoJSON FeatureCollection.
+            //For each object, it uses the area property as the geometry for the GeoJSON geometry field.
+            //The rest of the properties (except area) become the properties of each GeoJSON feature.
             const geoJSON = GeoJSON.parse(results, {GeoJSON: 'area'});
             res.json(Format.success("OK", geoJSON));
         } catch (error) {
